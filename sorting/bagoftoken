@@ -1,0 +1,25 @@
+class Solution {
+ public:
+  int bagOfTokensScore(vector<int>& tokens, int power) {
+    int a = 0;
+    int b = 0;
+    int i = 0;
+    int j = tokens.size() - 1;
+
+    sort(tokens.begin(), tokens.end());
+
+    while (i <= j && (power >= tokens[i] || b)) {
+      while (i <= j && power >= tokens[i]) {
+        power -= tokens[i++];
+        ++b;
+      }
+      a = max(a, b);
+      if (i <= j && b) {
+        power += tokens[j--];
+        --b;
+      }
+    }
+
+    return a;
+  }
+};
