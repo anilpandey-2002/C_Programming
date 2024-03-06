@@ -1,0 +1,10 @@
+class Solution {
+public:
+    bool hasCycle(ListNode* head) {
+        ListNode *a = head, *b = head;
+        while (b && b->next)
+            if ((a = a->next) == (b = b->next->next))
+                return true;
+        return false;
+    }
+};
