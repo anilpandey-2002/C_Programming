@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        if (points.empty()) return 0;
+
+  
+        sort(points.begin(), points.end(), [](const auto& a, const auto& b) {
+            return a[1] < b[1];
+        });
+
+        int a = 1;
+        int b = points[0][1];
+
+
+        for (const auto& point : points) {
+            
+            if (point[0] > b) {
+                ++a;
+                b = point[1];
+            }
+        }
+
+        return a;
+    }
+};
