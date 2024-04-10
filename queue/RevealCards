@@ -1,0 +1,16 @@
+class Solution {
+ public:
+  vector<int> deckRevealedIncreasing(vector<int>& deck) {
+    ranges::sort(deck, greater<int>());
+
+    deque<int> a{deck[0]};
+
+    for (int i = 1; i < deck.size(); ++i) {
+      a.push_front(a.back());
+      a.pop_back();
+      a.push_front(deck[i]);
+    }
+
+    return {a.begin(), a.end()};
+  }
+};//950
