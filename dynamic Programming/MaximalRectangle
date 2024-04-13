@@ -1,0 +1,37 @@
+class Solution {
+ public:
+  int maximalRectangle(vector<vector<char>>& matrix) {
+    if (matrix.empty())
+      return 0;
+
+    int a = 0;
+    vector<int> hist(matrix[0].size());
+
+    for (const vector<char>& row : matrix) {
+      for (int i = 0; i < row.size(); ++i)
+        hist[i] = row[i] == '0' ? 0 : hist[i] + 1;
+      a = max(a, largestRectangleArea(hist));
+    }
+
+    return a;
+  }
+
+ private:
+  int largestRectangleArea(const vector<int>& heights) {
+    int a = 0;
+    stack<int> b;
+
+    for (int i = 0; i <= heights.size(); ++i) {
+      while (!b.empty() &&
+             (i == heights.size() || heights[b.top()] > heights[i])) {
+        const int h = heights[b.top()];
+        b.pop();
+        const int w = b.empty() ? i : i - b.top() - 1;
+        a = max(a, h * w);
+      }
+      b.push(i);
+    }
+
+    return a;
+  }
+};//85
