@@ -1,0 +1,44 @@
+class UnionFind {
+  public UnionFind(int n) {
+    a = new int[n];
+    b = new int[n];
+    for (int i = 0; i < n; ++i)
+      a[i] = i;
+  }
+
+  public void unionByRank(int u, int v) {
+    final int i = find(u);
+    final int j = find(v);
+    if (i == j)
+      return;
+    if (b[i] < b[j]) {
+      a[i] = j;
+    } else if (b[i] > b[j]) {
+      a[j] = i;
+    } else {
+      a[i] = j;
+      ++b[j];
+    }
+  }
+
+  public int find(int u) {
+    return a[u] == u ? u : (a[u] = find(a[u]));
+  }
+
+  private int[] a;
+  private int[] b;
+}
+
+class Solution {
+  public boolean validPath(int n, int[][] edges, int source, int destination) {
+    UnionFind c = new UnionFind(n);
+
+    for (int[] edge : edges) {
+      final int u = edge[0];
+      final int v = edge[1];
+      c.unionByRank(u, v);
+    }
+
+    return c.find(source) == c.find(destination);
+  }
+}//1971
