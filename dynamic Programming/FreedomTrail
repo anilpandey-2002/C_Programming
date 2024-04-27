@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int findRotateSteps(string ring, string key) {
+        unordered_map<string, int> m;
+        return dfs(ring, key, 0, m) + key.length();
+    }
+
+private:
+
+    int dfs(const string& ring, const string& key, int index,
+            unordered_map<string, int>& m) {
+        if (index == key.length())
+            return 0;
+
+        const string hashKey = ring + '_' + to_string(index);
+        if (m.find(hashKey) != m.end())
+            return m[hashKey];
+
+        int a = INT_MAX;
+
+        
+        for (size_t i = 0; i < ring.length(); ++i) {
+            if (ring[i] == key[index]) {
+                const int minRotates = min(i, static_cast<int>(ring.length()) - i);
+                const int remainingRotates = dfs(rotateRing(ring, i), key, index + 1, m);
+                a = min(a, minRotates + remainingRotates);
+            }
+        }
+
+        m[hashKey] = a;
+        return a;
+    }
+
+    string rotateRing(const string& ring, int steps) {
+        return ring.substr(steps) + ring.substr(0, steps);
+    }
+};
+//514
