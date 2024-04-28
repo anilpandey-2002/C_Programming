@@ -1,0 +1,32 @@
+class Solution:
+  def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+    a = [0] * n
+    b = [1] * n               #b=count
+    c = collections.defaultdict(set) #c=tree
+
+    for u, v in edges:
+      c[u].add(v)
+      c[v].add(u)
+
+    def postorder(node, parent=None):
+      for child in c[node]:
+        if child == parent:
+          continue
+        postorder(child, node)
+        b[node] += b[child]
+        a[node] += a[child] + b[child]
+
+    def preorder(node, parent=None):
+      for child in c[node]:
+        if child == parent:
+          continue
+       
+        a[child] = a[node] - b[child] + (n - b[child])
+        preorder(child, node)
+
+    postorder(0)
+    preorder(0)
+    return a
+
+
+//834
