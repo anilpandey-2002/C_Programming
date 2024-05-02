@@ -1,0 +1,15 @@
+class Solution {
+ public:
+  int findMaxK(vector<int>& nums) {
+    int a = -1;
+    unordered_set<int> b;
+
+    for (const int num : nums)
+      if (b.count(-num))
+        a = max(a, abs(num));
+      else
+        b.insert(num);
+
+    return a;
+  }
+};//2441
