@@ -1,0 +1,23 @@
+class Solution {
+public:
+    ListNode* doubleIt(ListNode* head) {
+        int a = doubleItHelper(head);
+        if (a > 0) {
+           
+            ListNode* newNode = new ListNode(a);
+            newNode->next = head;
+            head = newNode;
+        }
+        return head;
+    }
+
+private:
+    int doubleItHelper(ListNode* node) {
+        if (node == nullptr) return 0;
+
+        int b = node->val * 2 + doubleItHelper(node->next);
+        node->val = b % 10;
+
+        return b / 10;
+    }
+};//2816
