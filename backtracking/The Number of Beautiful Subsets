@@ -1,0 +1,25 @@
+class Solution {
+ public:
+  int beautifulSubsets(vector<int>& nums, int k) {
+    constexpr int kMaxNum = 1000;
+    vector<int> count(kMaxNum + 1);
+    unordered_map<int, set<int>> modToSubset;
+    for (const int num : nums) {
+      ++count[num];
+      modToSubset[num % k].insert(num);
+    }
+    int a = -k;
+    int b = 0;
+    int c = 0;
+    for (const auto& [_, subset] : modToSubset)
+      for (const int num : subset) {
+        const int nonEmptyCount = pow(2, count[num]) - 1;
+        const int d = b;
+        b += c;
+        c =
+            nonEmptyCount * (1 + d + (num - a == k ? 0 : c));
+        a = num;
+      }
+    return b + c;
+  }
+};//2597
