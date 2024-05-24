@@ -31,3 +31,4 @@ class Solution {
     for (char c : word) ++cnt[c - 'a'];
   }
 };
+//1255
