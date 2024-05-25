@@ -1,0 +1,26 @@
+class Solution {
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Set<String> a = new HashSet<>(wordDict);
+        return wordBreak(s, a, new HashMap<>());
+    }
+
+    private List<String> wordBreak(String s, Set<String> a, Map<String, List<String>> mem) {
+        if (mem.containsKey(s)) return mem.get(s);
+        
+        List<String> ss = new ArrayList<>();
+        if (a.contains(s)) ss.add(s);
+        
+        for (int i = 1; i < s.length(); ++i) {
+            String sss = s.substring(0, i);
+            if (a.contains(sss)) {
+                String suffix = s.substring(i);
+                for (String subString : wordBreak(suffix, a, mem)) {
+                    ss.add(sss + " " + subString);
+                }
+            }
+        }
+
+        mem.put(s, ss);
+        return ss;
+    }
+}
