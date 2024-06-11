@@ -1,7 +1,7 @@
 class Solution {
  public:
   vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
-    vector<int> a;
+    vector<int> v;
     vector<int> c(1001);
 
     for (int a : arr1)
@@ -9,12 +9,12 @@ class Solution {
 
     for (int a : arr2)
       while (c[a]-- > 0)
-        a.push_back(a);
+        v.push_back(a);
 
     for (int num = 0; num < 1001; ++num)
       while (c[num]-- > 0)
-        a.push_back(num);
+        v.push_back(num);
 
-    return a;
+    return v;
   }
 };//1122
