@@ -1,0 +1,16 @@
+class Solution {
+ public:
+  int minIncrementForUnique(vector<int>& nums) {
+    int a = 0;
+    int b = 0;
+
+    ranges::sort(nums);
+
+    for (const int num : nums) {
+      a += max(b - num, 0);
+      b = max(b, num) + 1;
+    }
+
+    return a;
+  }
+};//945
