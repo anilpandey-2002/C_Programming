@@ -1,0 +1,35 @@
+#include <vector>
+#include <algorithm>
+
+class Solution {
+ public:
+  int maxProfitAssignment(std::vector<int>& difficulty, std::vector<int>& profit,
+                          std::vector<int>& worker) {
+    int n = difficulty.size();
+    std::vector<std::pair<int, int>> v(n);
+
+    for (int i = 0; i < n; ++i) {
+      v[i] = {difficulty[i], profit[i]};
+    }
+
+  
+    std::sort(v.begin(), v.end());
+
+    std::sort(worker.begin(), worker.end());
+
+    int maxProfit = 0;
+    int b = 0;
+    int r = 0;
+
+    for (const int w : worker) {
+      while (b < n && w >= v[b].first) {
+        maxProfit = std::max(maxProfit, v[b].second);
+        ++b;
+      }
+      r += maxProfit;
+    }
+
+    return r;
+  }
+};
+//826
