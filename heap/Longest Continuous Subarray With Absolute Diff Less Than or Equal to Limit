@@ -1,0 +1,27 @@
+#include <vector>
+#include <set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums, int limit) {
+        int l = 0;
+        int a = 0;
+        multiset<int> m;
+
+        for (int r = 0; r < nums.size(); ++r) {
+            m.insert(nums[r]); 
+            while (*m.rbegin() - *m.begin() > limit) {
+                m.erase(m.find(nums[l])); 
+                ++l; 
+            }
+
+            
+            a = max(a, r - l + 1);
+        }
+
+        return a;
+    }
+};
