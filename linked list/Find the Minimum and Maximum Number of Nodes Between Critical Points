@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        if (!head || !head->next || !head->next->next) return {-1, -1};
+
+        int firstIndex = -1, lastIndex = -1, minDistance = INT_MAX;
+        int prevVal = head->val, index = 1;
+        ListNode* curr = head->next;
+
+        while (curr->next) {
+            if ((curr->val > prevVal && curr->val > curr->next->val) || 
+                (curr->val < prevVal && curr->val < curr->next->val)) {
+                
+                if (firstIndex == -1) {
+                    firstIndex = index;
+                } else {
+                    minDistance = min(minDistance, index - lastIndex);
+                }
+                
+                lastIndex = index;
+            }
+            prevVal = curr->val;
+            curr = curr->next;
+            index++;
+        }
+
+        if (firstIndex == lastIndex) return {-1, -1};
+
+        return {minDistance, lastIndex - firstIndex};
+    }
+};
