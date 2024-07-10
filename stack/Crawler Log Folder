@@ -1,0 +1,17 @@
+class Solution {
+ public:
+  int minOperations(vector<string>& logs) {
+    int a = 0;
+
+    for (const string& log : logs) {
+      if (log == "./")
+        continue;
+      if (log == "../")
+        a = max(0, a - 1);
+      else
+        ++a;
+    }
+
+    return a;
+  }
+};
