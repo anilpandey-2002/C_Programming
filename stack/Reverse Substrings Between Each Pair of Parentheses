@@ -1,0 +1,19 @@
+class Solution {
+ public:
+  string reverseParentheses(string s) {
+    stack<int> st;
+    string a;
+    for (char c : s) {
+      if (c == '(') {
+        st.push(a.size());
+      } else if (c == ')') {
+        int j = st.top(); st.pop();
+        reverse(a.begin() + j, a.end());
+      } else {
+        a += c;
+      }
+    }
+
+    return a;
+  }
+};
