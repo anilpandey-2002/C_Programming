@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int maximumGain(string s, int x, int y) {
+        
+        if (x < y) {
+            return calculateGain(s, 'b', 'a', y) + calculateGain(s, 'a', 'b', x);
+        } else {
+            return calculateGain(s, 'a', 'b', x) + calculateGain(s, 'b', 'a', y);
+        }
+    }
+
+private:
+    int calculateGain(string& s, char first, char second, int points) {
+        int a = 0;
+        vector<char> st;
+
+        for (char c : s) {
+            if (!st.empty() && st.back() == first && c == second) {
+                st.pop_back();
+                a += points;
+            } else {
+                st.push_back(c);
+            }
+        }
+
+        s = string(st.begin(), st.end()); 
+        return a;
+    }
+};
