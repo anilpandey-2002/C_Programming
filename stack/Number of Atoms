@@ -1,0 +1,49 @@
+#include <string>
+#include <map>
+#include <stack>
+
+class Solution {
+ public:
+  std::string countOfAtoms(std::string formula) {
+    std::map<std::string, int> count;
+    std::stack<std::map<std::string, int>> stk;
+    int i = 0;
+
+    while (i < formula.size()) {
+      if (formula[i] == '(') {
+        stk.push(count);
+        count.clear();
+        ++i;
+      } else if (formula[i] == ')') {
+        int num = getNum(formula, ++i);
+        auto top = stk.top();
+        stk.pop();
+        for (auto &[elem, freq] : count) top[elem] += freq * num;
+        count = top;
+      } else {
+        std::string elem = getElem(formula, i);
+        count[elem] += getNum(formula, i);
+      }
+    }
+
+    std::string ans;
+    for (const auto &[elem, freq] : count) {
+      ans += elem;
+      if (freq > 1) ans += std::to_string(freq);
+    }
+    return ans;
+  }
+
+ private:
+  std::string getElem(const std::string &s, int &i) {
+    int start = i++;
+    while (i < s.size() && std::islower(s[i])) ++i;
+    return s.substr(start, i - start);
+  }
+
+  int getNum(const std::string &s, int &i) {
+    int start = i;
+    while (i < s.size() && std::isdigit(s[i])) ++i;
+    return start == i ? 1 : std::stoi(s.substr(start, i - start));
+  }
+};
