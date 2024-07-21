@@ -1,0 +1,36 @@
+class Solution {
+ public:
+  vector<vector<int>> buildMatrix(int k, vector<vector<int>>& rowConditions, vector<vector<int>>& colConditions) {
+    auto rowOrder = topologicalSort(rowConditions, k);
+    auto colOrder = topologicalSort(colConditions, k);
+    if (rowOrder.empty() || colOrder.empty()) return {};
+
+    vector<vector<int>> a(k, vector<int>(k));
+    vector<int> nodeToRowIndex(k + 1);
+
+    for (int i = 0; i < k; ++i) nodeToRowIndex[rowOrder[i]] = i;
+
+    for (int j = 0; j < k; ++j) a[nodeToRowIndex[colOrder[j]]][j] = colOrder[j];
+
+    return a;
+  }
+
+ private:
+  vector<int> topologicalSort(const vector<vector<int>>& conditions, int n) {
+    vector<int> order, inDegrees(n + 1);
+    vector<vector<int>> graph(n + 1);
+    queue<int> q;
+
+    for (const auto& condition : conditions) graph[condition[0]].push_back(condition[1]), ++inDegrees[condition[1]];
+
+    for (int i = 1; i <= n; ++i) if (!inDegrees[i]) q.push(i);
+
+    while (!q.empty()) {
+      int u = q.front(); q.pop();
+      order.push_back(u);
+      for (int v : graph[u]) if (--inDegrees[v] == 0) q.push(v);
+    }
+
+    return order.size() == n ? order : vector<int>();
+  }
+};
